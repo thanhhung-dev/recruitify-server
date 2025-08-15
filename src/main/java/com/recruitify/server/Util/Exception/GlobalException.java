@@ -1,4 +1,4 @@
-package com.recruitify.server.Exception;
+package com.recruitify.server.Util.Exception;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

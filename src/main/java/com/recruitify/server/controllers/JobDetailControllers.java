@@ -1,7 +1,7 @@
 package com.recruitify.server.controllers;
 
-import com.recruitify.server.entities.JobDetail;
-import com.recruitify.server.services.JobDetailService;
+import com.recruitify.server.entities.Job;
+import com.recruitify.server.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +15,15 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class JobDetailControllers {
-    private final JobDetailService jobDetailService;
+    private final JobService jobService;
+
     @GetMapping("/api/jobdetail")
-    public ResponseEntity<List<JobDetail>> getJobDetail() {
-        return ResponseEntity.status(HttpStatus.OK).body(this.jobDetailService.handleGetJobDetails());
+    public ResponseEntity<List<Job>> getJobDetail() {
+        return ResponseEntity.status(HttpStatus.OK).body(this.jobService.handleGetJobDetails());
     }
     @PostMapping("/api/jobdetail")
-    public ResponseEntity<JobDetail> createJobDetail(@RequestBody JobDetail jobDetail) {
-        JobDetail createdJobDetail = jobDetailService.createJobDetail(jobDetail);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdJobDetail);
+    public ResponseEntity<Job> createJobDetail(@RequestBody Job job) {
+        Job createdJob = jobService.createJobDetail(job);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdJob);
     }
 }
