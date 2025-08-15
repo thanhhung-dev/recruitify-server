@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
-@Table(name = "jobs")
+@Table(name = "job")
 @Data
 public class Job {
     @Id
@@ -22,6 +22,12 @@ public class Job {
 
     @Column(name = "image", length = 255)
     private String image;
+
+    @Column(name = "job_level_id")
+    private Long jobLevelId;
+
+    @Column(name = "job_type_id")
+    private Long jobTypeId;
 
     @Column(name = "over_view", columnDefinition = "TEXT")
     private String overView;
@@ -61,5 +67,14 @@ public class Job {
     {
         updatedAt = Instant.now();
     }
+
+    //Relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_level_id", insertable = false, updatable = false)
+    private JobLevel jobLevel;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_type_id", insertable = false, updatable = false)
+    private JobType jobType;
 
 }
