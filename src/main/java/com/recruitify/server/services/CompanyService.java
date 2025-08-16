@@ -20,6 +20,11 @@ public class CompanyService {
     {
         return this.companyRepository.findAll();
     }
+    public Company findCompanyById(long id)
+    {
+        Optional<Company> company = companyRepository.findById(id);
+        return company.orElse(null);
+    }
     public Company updateCompany(Company company){
         Optional<Company> companyOptional = this.companyRepository.findById(company.getId());
         if(companyOptional.isPresent()){
