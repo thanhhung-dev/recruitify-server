@@ -15,7 +15,7 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private String jobId;
+    private Long jobId;
 
     @Column(name ="job_title", length = 255, nullable = false)
     private String jobTitle;
@@ -29,12 +29,26 @@ public class Job {
     @Column(name = "job_type_id")
     private Long jobTypeId;
 
+    @Column(name = "company_id")
+    private Long companyId;
+
     @Column(name = "over_view", columnDefinition = "TEXT")
     private String overView;
 
     @Column(name = "salary", precision = 10, scale = 2)
     private BigDecimal salary;
 
+    @Column(name = "requirements_priority", columnDefinition = "TEXT")
+    private String requirementsPriority;
+
+    @Column(name = "requirements_experience", columnDefinition = "TEXT")
+    private String requirementsExperience;
+
+    @Column(name = "requirements_skills", columnDefinition = "TEXT")
+    private String requirementsSkills;
+
+    @Column(name = "is_hidden")
+    private Boolean isHidden = false;
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -43,23 +57,12 @@ public class Job {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
     @Column(name = "created_by", length = 100)
-    private String create_by;
+    private String createdBy;
 
     @PrePersist
-    public void onCreate()
-    {
-        if(createdAt == null)
-        {
-            createdAt = Instant.now();
-            updatedAt = Instant.now();
-        }
-        if(updatedAt == null)
-        {
-            updatedAt = Instant.now();
-        }
-        if(create_by == null)
-        {
-            create_by = "HungPig";
+    public void onCreate() {
+        if (createdBy == null) {
+            createdBy = "HungPig";
         }
     }
     @PreUpdate
@@ -69,12 +72,16 @@ public class Job {
     }
 
     //Relationship
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "job_level_id", insertable = false, updatable = false)
     private JobLevel jobLevel;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "job_type_id", insertable = false, updatable = false)
     private JobType jobType;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id", insertable = false, updatable = false)
+    private Company company;
 
 }
