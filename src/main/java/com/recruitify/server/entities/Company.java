@@ -1,11 +1,13 @@
 package com.recruitify.server.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Data
@@ -47,6 +49,11 @@ public class Company {
     private Instant updatedAt;
     @Column(name = "created_by", length = 100)
     private String createdBy;
+
+    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+    @JsonIgnore
+    List<User> users;
+
 
     @PrePersist
     public void onCreate() {

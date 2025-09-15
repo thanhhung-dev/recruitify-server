@@ -25,7 +25,6 @@ public class User {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
     @Column(name = "password_hash", nullable = false)
-    @JsonIgnore
     private String password;
     // profile fields
     @Column(name = "first_name", length = 50)
@@ -38,12 +37,18 @@ public class User {
     private int gender; //0 nam || 1 la nu
     @Column(name = "image", length = 1024)
     private String image;
-
+    @Column(length = 244)
+    private String address;
     private LocalDate dob;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
 
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")

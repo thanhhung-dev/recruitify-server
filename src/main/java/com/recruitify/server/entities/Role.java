@@ -33,11 +33,6 @@ public class Role {
     private Instant updatedAt;
 
     // Calculated property (not stored in database)
-    @Transient
-    public String getDisplayName() {
-        return null;
-    }
-
     @PrePersist
     protected void onCreate() {
         if (createdAt == null) {
