@@ -9,22 +9,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-@RequestMapping("/api/companies")
+@RequestMapping("api/v1/")
 @CrossOrigin(origins = "*")
 @RestController
 @RequiredArgsConstructor
 public class CompanyControllers {
     private final CompanyService companyService;
 
-    @PostMapping("")
+    @PostMapping("/company")
     @ApiMessage("Create a company")
     public ResponseEntity<Company> createCompany(@RequestBody Company company) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.companyService.createCompany(company));
     }
 
-    @GetMapping("")
+    @GetMapping("/companies")
     @ApiMessage("Fetch all company data")
     public ResponseEntity<List<Company>> getAllCompany() {
         return ResponseEntity.status(HttpStatus.OK)
