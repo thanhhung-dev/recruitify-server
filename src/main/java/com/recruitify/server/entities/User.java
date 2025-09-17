@@ -57,21 +57,19 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
 
+    @Column(length = 100)
+    private String createdBy;
+
+    @Column(length = 100)
+    private String updatedBy;
     // Calculated property (not stored in database)
-    @Transient
-    public String getDisplayName() {
-        if (firstName != null && lastName != null) {
-            return firstName + " " + lastName;
-        } else if (firstName != null) {
-            return firstName;
-        } else if (lastName != null) {
-            return lastName;
-        }
-        return null;
-    }
 
     @PrePersist
     protected void onCreate() {
+        if (createdBy == null)
+        {
+            createdBy = "HungThanh";
+        }
         if (createdAt == null) {
             createdAt = Instant.now();
         }
@@ -82,6 +80,7 @@ public class User {
 
     @PreUpdate
     protected void onUpdate() {
+        updatedBy = "HungThanh";
         updatedAt = Instant.now();
     }
 }

@@ -49,27 +49,6 @@ public class Job {
 
     @Column(name = "is_hidden")
     private Boolean isHidden = false;
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
-    private Instant createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
-    private Instant updatedAt;
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
-
-    @PrePersist
-    public void onCreate() {
-        if (createdBy == null) {
-            createdBy = "HungPig";
-        }
-    }
-    @PreUpdate
-    public void onUpdate()
-    {
-        updatedAt = Instant.now();
-    }
 
     //Relationship
     @ManyToOne(fetch = FetchType.EAGER)
@@ -83,5 +62,39 @@ public class Job {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
+
+    @Column(name = "created_at", nullable = false, updatable = false,
+            columnDefinition = "TIMESTAMP")
+    private Instant createdAt;
+
+    @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
+    private Instant updatedAt;
+
+    @Column(name = "created_by", length = 100)
+    private String createdBy;
+
+    @Column(name = "updated_by", length = 100)
+    private String updatedBy;
+    // Calculated property (not stored in database)
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdBy == null)
+        {
+            createdBy = "HungThanh";
+        }
+        if (createdAt == null) {
+            createdAt = Instant.now();
+        }
+        if (updatedAt == null) {
+            updatedAt = Instant.now();
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedBy = "HungThanh";
+        updatedAt = Instant.now();
+    }
 
 }
