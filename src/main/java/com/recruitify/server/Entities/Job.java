@@ -1,10 +1,6 @@
-package com.recruitify.server.entities;
-
+package com.recruitify.server.Entities;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 

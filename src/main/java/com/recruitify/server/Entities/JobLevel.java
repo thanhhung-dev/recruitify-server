@@ -1,50 +1,19 @@
-package com.recruitify.server.entities;
+package com.recruitify.server.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
 @Data
-@Table(name = "company")
-public class Company {
+@Table(name = "job_levels")
+public class JobLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "name")
-    private String name;
-
-    @Column(name = "overview", columnDefinition = "TEXT")
-    private String overview;
-
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "industry")
-    private String industry;
-
-    @Column(name = "company_type")
-    private String companyType;
-
-    @Column(name = "company_size")
-    private String companySize;
-
-    @Column(name = "founder_year")
-    private Integer founderYear;
-
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonIgnore
-    List<User> users;
-
+    private String LevelName;
 
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
@@ -78,5 +47,4 @@ public class Company {
     protected void onUpdate() {
         updatedBy = "HungThanh";
         updatedAt = Instant.now();
-    }
-}
+    }}

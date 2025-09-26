@@ -1,6 +1,6 @@
-package com.recruitify.server.repositories;
+package com.recruitify.server.Repositories;
 
-import com.recruitify.server.entities.User;
+import com.recruitify.server.Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

@@ -1,10 +1,8 @@
-package com.recruitify.server.services;
+package com.recruitify.server.Services;
 
-import com.recruitify.server.entities.Company;
-import com.recruitify.server.entities.Job;
-import com.recruitify.server.repositories.CompanyRepository;
+import com.recruitify.server.Entities.Company;
+import com.recruitify.server.Repositories.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.recruitify.server.entities.Res;
+package com.recruitify.server.Dtos.Response.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResUserDTO {
+public class UserResponse {
     private long id;
     private String email;
     private String firstName;

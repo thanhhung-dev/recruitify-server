@@ -1,30 +1,19 @@
-package com.recruitify.server.entities;
+package com.recruitify.server.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
+@Table(name = "job_types")
 @Data
-@Table(name = "roles")
-@NoArgsConstructor
-@AllArgsConstructor
-public class Role {
+public class JobType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(name = "name", length = 50, nullable = false)
+    private Long Id;
+    @Column(name = "name")
     private String name;
-
-    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
-    @JsonIgnore
-    List<User> users;
-
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
     private Instant createdAt;

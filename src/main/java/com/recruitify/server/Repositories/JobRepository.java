@@ -1,6 +1,6 @@
-package com.recruitify.server.repositories;
+package com.recruitify.server.Repositories;
 
-import com.recruitify.server.entities.Job;
+import com.recruitify.server.Entities.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
