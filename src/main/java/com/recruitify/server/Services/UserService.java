@@ -1,12 +1,12 @@
-package com.recruitify.server.services;
+package com.recruitify.server.Services;
 
-import com.recruitify.server.entities.Company;
-import com.recruitify.server.entities.Res.ResCreateUserDTO;
-import com.recruitify.server.entities.Res.ResUpdateUserDTO;
-import com.recruitify.server.entities.Res.ResUserDTO;
-import com.recruitify.server.entities.Role;
-import com.recruitify.server.entities.User;
-import com.recruitify.server.repositories.UserRepository;
+import com.recruitify.server.Entities.Company;
+import com.recruitify.server.Dtos.Response.User.CreateUserResponse;
+import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
+import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Entities.Role;
+import com.recruitify.server.Entities.User;
+import com.recruitify.server.Repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,9 +70,9 @@ public class UserService {
         }
         return currentUser;
     }
-    public ResCreateUserDTO convertToResCreateUserDTO(User user) {
-        ResCreateUserDTO res = new ResCreateUserDTO();
-        ResCreateUserDTO.CompanyUser com = new ResCreateUserDTO.CompanyUser();
+    public CreateUserResponse convertToResCreateUserDTO(User user) {
+        CreateUserResponse res = new CreateUserResponse();
+        CreateUserResponse.CompanyUser com = new CreateUserResponse.CompanyUser();
 
         res.setId(user.getId());
         res.setEmail(user.getEmail());
@@ -88,10 +88,10 @@ public class UserService {
         }
         return res;
     }
-    public ResUserDTO convertToResUserDTO(User user) {
-        ResUserDTO res = new ResUserDTO();
-        ResUserDTO.CompanyUser com = new ResUserDTO.CompanyUser();
-        ResUserDTO.RoleUser roleUser = new ResUserDTO.RoleUser();
+    public UserResponse convertToResUserDTO(User user) {
+        UserResponse res = new UserResponse();
+        UserResponse.CompanyUser com = new UserResponse.CompanyUser();
+        UserResponse.RoleUser roleUser = new UserResponse.RoleUser();
         if (user.getCompany() != null) {
             com.setId(user.getCompany().getId());
             com.setName(user.getCompany().getName());
@@ -115,8 +115,8 @@ public class UserService {
         res.setAddress(user.getAddress());
         return res;
     }
-    public ResUpdateUserDTO convertToResUpdateUserDTO(User user) {
-        ResUpdateUserDTO dto = new ResUpdateUserDTO();
+    public UpdateUserResponse convertToResUpdateUserDTO(User user) {
+        UpdateUserResponse dto = new UpdateUserResponse();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());

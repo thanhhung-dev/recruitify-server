@@ -1,7 +1,7 @@
-package com.recruitify.server.services;
+package com.recruitify.server.Services;
 
-import com.recruitify.server.entities.Role;
-import com.recruitify.server.repositories.RoleRepository;
+import com.recruitify.server.Entities.Role;
+import com.recruitify.server.Repositories.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

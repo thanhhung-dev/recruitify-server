@@ -1,8 +1,8 @@
-package com.recruitify.server.controllers;
+package com.recruitify.server.Controllers;
 
 import com.recruitify.server.Util.Annotation.ApiMessage;
-import com.recruitify.server.entities.Job;
-import com.recruitify.server.services.JobService;
+import com.recruitify.server.Entities.Job;
+import com.recruitify.server.Services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

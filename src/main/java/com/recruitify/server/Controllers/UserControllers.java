@@ -1,12 +1,12 @@
-package com.recruitify.server.controllers;
+package com.recruitify.server.Controllers;
 
 import com.recruitify.server.Util.Annotation.ApiMessage;
 import com.recruitify.server.Util.Error.IdInvalidException;
-import com.recruitify.server.entities.Res.ResCreateUserDTO;
-import com.recruitify.server.entities.Res.ResUpdateUserDTO;
-import com.recruitify.server.entities.Res.ResUserDTO;
-import com.recruitify.server.entities.User;
-import com.recruitify.server.services.UserService;
+import com.recruitify.server.Dtos.Response.User.CreateUserResponse;
+import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
+import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Entities.User;
+import com.recruitify.server.Services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class UserControllers {
 
     @PostMapping("/users")
     @ApiMessage("Create a new user")
-    public ResponseEntity<ResCreateUserDTO> createNewUser(@RequestBody User user)
+    public ResponseEntity<CreateUserResponse> createNewUser(@RequestBody User user)
             throws IdInvalidException {
         boolean isEmailExist = this.userService.isEmailExist(user.getEmail());
         if (isEmailExist) {
@@ -57,7 +57,7 @@ public class UserControllers {
 
     @GetMapping("/users/{id}")
     @ApiMessage("Fetch user by ID")
-    public ResponseEntity<ResUserDTO> getUserById(@PathVariable("id") long id)
+    public ResponseEntity<UserResponse> getUserById(@PathVariable("id") long id)
             throws IdInvalidException {
         User fetchUser = this.userService.fetchUserById(id);
         if (fetchUser == null) {
@@ -69,7 +69,7 @@ public class UserControllers {
 
     @PutMapping("/users")
     @ApiMessage("Update a user")
-    public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody User user)
+    public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody User user)
             throws IdInvalidException {
         User updatedUser = this.userService.handleUpdateUser(user);
         if (updatedUser == null) {

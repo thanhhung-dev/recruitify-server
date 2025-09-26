@@ -1,6 +1,6 @@
-package com.recruitify.server.repositories;
+package com.recruitify.server.Repositories;
 
-import com.recruitify.server.entities.Role;
+import com.recruitify.server.Entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

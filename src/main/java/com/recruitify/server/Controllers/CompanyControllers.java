@@ -1,9 +1,9 @@
-package com.recruitify.server.controllers;
+package com.recruitify.server.Controllers;
 
 import com.recruitify.server.Util.Annotation.ApiMessage;
 import com.recruitify.server.Util.Error.IdInvalidException;
-import com.recruitify.server.entities.Company;
-import com.recruitify.server.services.CompanyService;
+import com.recruitify.server.Entities.Company;
+import com.recruitify.server.Services.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
