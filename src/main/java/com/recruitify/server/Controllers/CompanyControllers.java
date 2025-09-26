@@ -28,10 +28,6 @@ public class CompanyControllers {
     @ApiMessage("Update a Company")
     public ResponseEntity<Company> updateCompany(@RequestBody Company company) throws IdInvalidException {
         Company updateCompany = this.companyService.updateCompany(company);
-        if(updateCompany == null)
-        {
-            throw new IdInvalidException("Company with id: " + company.getId() + "does not exit");
-        }
         return ResponseEntity.status(HttpStatus.OK).body(updateCompany);
     }
     @GetMapping("/companies")
