@@ -2,6 +2,7 @@ package com.recruitify.server.Services;
 
 import com.recruitify.server.Entities.Company;
 import com.recruitify.server.Repositories.CompanyRepository;
+import com.recruitify.server.Util.Error.IdInvalidException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,32 +19,29 @@ public class CompanyService {
     {
         return this.companyRepository.findAll();
     }
-    public Company findCompanyById(long id)
+    public Optional<Company> fetchCompanyById(long id)
     {
-        Optional<Company> company = companyRepository.findById(id);
-        return company.orElse(null);
+        return this.companyRepository.findById(id);
     }
-    public Company updateCompany(Company company){
-        Optional<Company> companyOptional = this.companyRepository.findById(company.getId());
-        if(companyOptional.isPresent()){
-            Company currentCompany = companyOptional.get();
-            currentCompany.setName(company.getName());
-            currentCompany.setOverview(company.getOverview());
-            currentCompany.setImage(company.getImage());
-            currentCompany.setPhone(company.getPhone());
-            currentCompany.setIndustry(company.getIndustry());
-            currentCompany.setCompanyType(company.getCompanyType());
-            currentCompany.setCompanySize(company.getCompanySize());
-            currentCompany.setFounderYear(company.getFounderYear());
-            return this.companyRepository.save(currentCompany);
-        }
-        return null;
+    public Company updateCompany(Company company) throws IdInvalidException {
+        return this.companyRepository.findById(company.getId())
+                .map(currentCompany -> {
+                    currentCompany.setName(company.getName());
+                    currentCompany.setOverview(company.getOverview());
+                    currentCompany.setImage(company.getImage());
+                    currentCompany.setPhone(company.getPhone());
+                    currentCompany.setIndustry(company.getIndustry());
+                    currentCompany.setCompanyType(company.getCompanyType());
+                    currentCompany.setCompanySize(company.getCompanySize());
+                    currentCompany.setFounderYear(company.getFounderYear());
+                    return this.companyRepository.save(currentCompany);
+                })
+                .orElseThrow(() -> new IdInvalidException("Company Not Found with id: " + company.getId()));
     }
 
     public void deleteCompany(Long id){
         Optional<Company> companyOptional = this.companyRepository.findById(id);
         if(companyOptional.isPresent()){
-            Company company = companyOptional.get();
             this.companyRepository.deleteById(id);
         }
     }
