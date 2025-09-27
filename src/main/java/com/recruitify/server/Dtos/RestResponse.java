@@ -1,4 +1,4 @@
-package com.recruitify.server.Dtos.Response;
+package com.recruitify.server.Dtos;
 
 import lombok.Data;
 

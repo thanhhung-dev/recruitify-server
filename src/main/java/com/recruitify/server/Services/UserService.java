@@ -1,13 +1,15 @@
 package com.recruitify.server.Services;
 
-import com.recruitify.server.Entities.Company;
-import com.recruitify.server.Dtos.Response.User.CreateUserResponse;
+import com.recruitify.server.Dtos.Response.CreateUserResponse;
 import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
 import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Entities.Company;
 import com.recruitify.server.Entities.Role;
 import com.recruitify.server.Entities.User;
 import com.recruitify.server.Repositories.UserRepository;
+import com.recruitify.server.Util.Error.IdInvalidException;
 import lombok.AllArgsConstructor;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +25,15 @@ public class UserService {
     {
         return this.userRepository.findAll();
     }
-    public User handleCreateUser(User user)
-    {
+    public User handleCreateUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new ServiceException("Email is already in use: " + user.getEmail());
+        }
         if (user.getCompany() != null) {
-            Optional<Company> companyOptional = Optional.ofNullable(this.companyService.findCompanyById(user.getCompany().getId()));
+            Optional<Company> companyOptional = this.companyService.fetchCompanyById(user.getCompany().
+                    getId());
             user.setCompany(companyOptional.orElse(null));
         }
-
         // check role
         if (user.getRole() != null) {
             Role r = this.roleService.findRoleById(user.getRole().getId());
@@ -40,35 +44,30 @@ public class UserService {
     public void handleDeleteUser(long id) {
         this.userRepository.deleteById(id);
     }
-    public User fetchUserById(long id) {
-        Optional<User> userOptional = this.userRepository.findById(id);
-        return userOptional.orElse(null);
+    public User fetchUserById(long id) throws IdInvalidException {
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new IdInvalidException("User not found with id: " + id));
     }
-
-    public boolean isEmailExist(String email) {
-        return this.userRepository.existsByEmail(email);
-    }
-    public User handleUpdateUser(User reqUser) {
-        User currentUser = this.fetchUserById(reqUser.getId());
-        if (currentUser != null) {
-            currentUser.setAddress(reqUser.getAddress());
-            currentUser.setGender(reqUser.getGender());
-            currentUser.setDob(reqUser.getDob());
-            currentUser.setFirstName(reqUser.getFirstName());
-            currentUser.setLastName(reqUser.getLastName());
-            currentUser.setPhoneNumber(reqUser.getPhoneNumber());
-            currentUser.setImage(reqUser.getImage());
-            if (reqUser.getCompany() != null) {
-                Company company = this.companyService.findCompanyById(reqUser.getCompany().getId());
-                currentUser.setCompany(company);
-            }
-            if (reqUser.getRole() != null) {
-                Role role = this.roleService.findRoleById(reqUser.getRole().getId());
-                currentUser.setRole(role);
-            }
-            currentUser = this.userRepository.save(currentUser);
-        }
-        return currentUser;
+    public User handleUpdateUser(User reqUser) throws IdInvalidException {
+        return this.userRepository.findById(reqUser.getId())
+                .map(currentUser -> {currentUser.setAddress(reqUser.getAddress());
+                    currentUser.setGender(reqUser.getGender());
+                    currentUser.setDob(reqUser.getDob());
+                    currentUser.setFirstName(reqUser.getFirstName());
+                    currentUser.setLastName(reqUser.getLastName());
+                    currentUser.setPhoneNumber(reqUser.getPhoneNumber());
+                    currentUser.setImage(reqUser.getImage());
+                    if (reqUser.getCompany() != null && reqUser.getCompany().getId() != null) {
+                        Optional<Company> company = this.companyService.fetchCompanyById(reqUser.getCompany().getId());
+                        currentUser.setCompany(company.orElse(null));
+                    }
+                    if (reqUser.getRole() != null) {
+                        Role role = this.roleService.findRoleById(reqUser.getRole().getId());
+                        currentUser.setRole(role);
+                    }
+                    return this.userRepository.save(currentUser);
+                })
+                .orElseThrow(() -> new IdInvalidException("User not found with id: " + reqUser.getId()));
     }
     public CreateUserResponse convertToResCreateUserDTO(User user) {
         CreateUserResponse res = new CreateUserResponse();

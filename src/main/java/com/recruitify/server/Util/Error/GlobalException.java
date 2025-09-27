@@ -1,6 +1,6 @@
 package com.recruitify.server.Util.Error;
 
-import com.recruitify.server.entities.Res.RestResponse;
+import com.recruitify.server.Dtos.RestResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

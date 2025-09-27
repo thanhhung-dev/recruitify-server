@@ -1,10 +1,10 @@
 package com.recruitify.server.Controllers;
 
-import com.recruitify.server.Util.Annotation.ApiMessage;
-import com.recruitify.server.Util.Error.IdInvalidException;
-import com.recruitify.server.Dtos.Response.User.CreateUserResponse;
+import com.recruitify.server.Dtos.Response.CreateUserResponse;
 import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
 import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Util.Annotation.ApiMessage;
+import com.recruitify.server.Util.Error.IdInvalidException;
 import com.recruitify.server.Entities.User;
 import com.recruitify.server.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -29,13 +29,7 @@ public class UserControllers {
 
     @PostMapping("/users")
     @ApiMessage("Create a new user")
-    public ResponseEntity<CreateUserResponse> createNewUser(@RequestBody User user)
-            throws IdInvalidException {
-        boolean isEmailExist = this.userService.isEmailExist(user.getEmail());
-        if (isEmailExist) {
-            throw new IdInvalidException(
-                    "Email " + user.getEmail() + " already exists, please use a different email.");
-        }
+    public ResponseEntity<CreateUserResponse> createNewUser(@RequestBody User user) throws IdInvalidException {
         // hash password later
         user.setPassword(user.getPassword());
         User createdUser = this.userService.handleCreateUser(user);
@@ -48,9 +42,6 @@ public class UserControllers {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") long id)
             throws IdInvalidException {
         User currentUser = this.userService.fetchUserById(id);
-        if (currentUser == null) {
-            throw new IdInvalidException("User with id = " + id + " does not exist");
-        }
         this.userService.handleDeleteUser(id);
         return ResponseEntity.ok(null);
     }
@@ -60,9 +51,6 @@ public class UserControllers {
     public ResponseEntity<UserResponse> getUserById(@PathVariable("id") long id)
             throws IdInvalidException {
         User fetchUser = this.userService.fetchUserById(id);
-        if (fetchUser == null) {
-            throw new IdInvalidException("User with id = " + id + " does not exist");
-        }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.userService.convertToResUserDTO(fetchUser));
     }
