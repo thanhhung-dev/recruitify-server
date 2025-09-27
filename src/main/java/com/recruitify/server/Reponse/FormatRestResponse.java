@@ -1,6 +1,6 @@
 package com.recruitify.server.Reponse;
 
-import com.recruitify.server.Dtos.Response.RestResponse;
+import com.recruitify.server.Dtos.RestResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
