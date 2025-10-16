@@ -6,15 +6,14 @@ import lombok.Data;
 import java.time.Instant;
 
 @Entity
+@Table(name = "employment_type")
 @Data
-@Table(name = "job_levels")
-public class JobLevel {
+public class EmploymentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
     @Column(name = "name")
-    private String LevelName;
-
+    private String name;
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -22,11 +21,17 @@ public class JobLevel {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
 
+    @Column(name = "deleted_at" , columnDefinition = "TIMESTAMP")
+    private Instant deleteAt;
+
     @Column(length = 100)
     private String createdBy;
 
     @Column(length = 100)
     private String updatedBy;
+
+    @Column(name = "deleted_by", length = 100)
+    private String deleteBy;
     // Calculated property (not stored in database)
 
     @PrePersist
@@ -47,4 +52,5 @@ public class JobLevel {
     protected void onUpdate() {
         updatedBy = "HungThanh";
         updatedAt = Instant.now();
-    }}
+    }
+}

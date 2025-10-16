@@ -6,9 +6,9 @@ import lombok.Data;
 import java.time.Instant;
 
 @Entity
-@Table(name = "job_types")
 @Data
-public class JobType {
+@Table(name = "experience_level")
+public class ExperienceLevel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -21,11 +21,17 @@ public class JobType {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
 
+    @Column(name = "deleted_at" , columnDefinition = "TIMESTAMP")
+    private Instant deleteAt;
+
     @Column(length = 100)
     private String createdBy;
 
     @Column(length = 100)
     private String updatedBy;
+
+    @Column(name = "deleted_by", length = 100)
+    private String deleteBy;
     // Calculated property (not stored in database)
 
     @PrePersist
