@@ -26,25 +26,6 @@ public class Job {
 
     @Column(name = "requirement", columnDefinition = "TEXT")
     private String requirement;
-    private Long jobId;
-
-    @Column(name ="job_title", length = 255, nullable = false)
-    private String jobTitle;
-
-    @Column(name = "image", length = 255)
-    private String image;
-
-    @Column(name = "job_level_id")
-    private Long jobLevelId;
-
-    @Column(name = "job_type_id")
-    private Long jobTypeId;
-
-    @Column(name = "company_id")
-    private Long companyId;
-
-    @Column(name = "over_view", columnDefinition = "TEXT")
-    private String overView;
 
     @Column(name = "salary", precision = 10, scale = 2)
     private BigDecimal salary;
@@ -74,34 +55,12 @@ public class Job {
     )
     private List<Skills> skills;
 
+    @ManyToOne
+    @JoinColumn(name = "ward_code")
+    private Ward ward;
+
 
     //Common
-=======
-    @Column(name = "requirements_priority", columnDefinition = "TEXT")
-    private String requirementsPriority;
-
-    @Column(name = "requirements_experience", columnDefinition = "TEXT")
-    private String requirementsExperience;
-
-    @Column(name = "requirements_skills", columnDefinition = "TEXT")
-    private String requirementsSkills;
-
-    @Column(name = "is_hidden")
-    private Boolean isHidden = false;
-
-    //Relationship
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "job_level_id", insertable = false, updatable = false)
-    private JobLevel jobLevel;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "job_type_id", insertable = false, updatable = false)
-    private JobType jobType;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "company_id", insertable = false, updatable = false)
-    private Company company;
-
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -114,6 +73,7 @@ public class Job {
 
     @Column(name = "updated_by", length = 100)
     private String updatedBy;
+
     // Calculated property (not stored in database)
 
     @PrePersist
