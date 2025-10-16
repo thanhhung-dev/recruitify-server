@@ -1,47 +1,19 @@
 package com.recruitify.server.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
 
 @Entity
+@Table(name = "employment_type")
 @Data
-@Table(name = "company")
-public class Company {
+public class EmploymentType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long Id;
     @Column(name = "name")
     private String name;
-
-    @Column(name = "overview", columnDefinition = "TEXT")
-    private String overview;
-
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "industry")
-    private String industry;
-
-    @Column(name = "company_type")
-    private String companyType;
-
-    @Column(name = "company_size")
-    private String companySize;
-
-    @Column(name = "founder_year")
-    private Integer founderYear;
-    //Relationship
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
-    @JsonIgnore
-    List<User> users;
     @Column(name = "created_at", nullable = false, updatable = false,
             columnDefinition = "TIMESTAMP")
     private Instant createdAt;
@@ -49,16 +21,18 @@ public class Company {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP")
     private Instant updatedAt;
 
+    @Column(name = "deleted_at" , columnDefinition = "TIMESTAMP")
+    private Instant deleteAt;
+
     @Column(length = 100)
     private String createdBy;
 
     @Column(length = 100)
     private String updatedBy;
-    @Column(columnDefinition = "TIMESTAMP")
-    private Instant deleteAt;
 
-    @Column(length = 100)
+    @Column(name = "deleted_by", length = 100)
     private String deleteBy;
+    // Calculated property (not stored in database)
 
     @PrePersist
     protected void onCreate() {

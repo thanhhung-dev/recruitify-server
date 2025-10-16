@@ -1,8 +1,10 @@
 package com.recruitify.server.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "job")
@@ -11,6 +13,19 @@ public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
+    private Long Id;
+
+    @Column(name ="title", length = 255, nullable = false)
+    private String Title;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name = "responsibilities", columnDefinition = "TEXT")
+    private String responsibilities;
+
+    @Column(name = "requirement", columnDefinition = "TEXT")
+    private String requirement;
     private Long jobId;
 
     @Column(name ="job_title", length = 255, nullable = false)
@@ -34,6 +49,34 @@ public class Job {
     @Column(name = "salary", precision = 10, scale = 2)
     private BigDecimal salary;
 
+    //Relationship
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "employment_type_id")
+    private EmploymentType employmentType;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "experience_level_id")
+    private ExperienceLevel experienceLevel;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "job_skill",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private List<Skills> skills;
+
+
+    //Common
+=======
     @Column(name = "requirements_priority", columnDefinition = "TEXT")
     private String requirementsPriority;
 
