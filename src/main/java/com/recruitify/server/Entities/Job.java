@@ -19,17 +19,19 @@ public class Job {
     private String Title;
 
     @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    private String Description;
 
     @Column(name = "responsibilities", columnDefinition = "TEXT")
-    private String responsibilities;
+    private String Responsibilities;
 
     @Column(name = "requirement", columnDefinition = "TEXT")
-    private String requirement;
+    private String Requirement;
 
     @Column(name = "salary", precision = 10, scale = 2)
     private BigDecimal salary;
 
+    @Column(columnDefinition = "TEXT")
+    private String Benefit;
     //Relationship
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
@@ -58,7 +60,6 @@ public class Job {
     @ManyToOne
     @JoinColumn(name = "ward_code")
     private Ward ward;
-
 
     //Common
     @Column(name = "created_at", nullable = false, updatable = false,
