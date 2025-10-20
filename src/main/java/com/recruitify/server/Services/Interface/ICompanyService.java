@@ -9,5 +9,5 @@ public interface ICompanyService {
     Company createCompany(Company request);
     Company updateCompany(Long id , Company request);
     void deleteCompany(Long id);
-    Company getByid(long id);
+    Company getByCompanyId(long id);
 }

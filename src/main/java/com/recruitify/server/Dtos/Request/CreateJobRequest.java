@@ -1,5 +1,6 @@
 package com.recruitify.server.Dtos.Request;
 
+import com.recruitify.server.Entities.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,16 +29,16 @@ public class CreateJobRequest {
 
     private String benefit;
 
-    @NotNull(message = "Company ID is required")
-    private Long companyId;
+    @NotNull(message = "Company is required")
+    private Company company;
 
-    private Long employmentTypeId;
+    private EmploymentType employmentType;
 
-    private Long experienceLevelId;
+    private ExperienceLevel experienceLevel;
 
-    private Long categoryId;
+    private Category category;
 
     private String wardCode;
 
-    private List<String> skillIds;
+    private List<Skills> skill;
 }

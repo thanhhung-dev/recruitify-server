@@ -25,7 +25,6 @@ public class JobMapper {
         dto.setCreatedBy(job.getCreatedBy());
         dto.setUpdatedBy(job.getUpdatedBy());
 
-
         String company = Optional.ofNullable(job.getCompany())
                 .map(Company::getName)
                 .orElse("Unknown");

@@ -15,25 +15,20 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobServiceImpl implements IJobService {
     private static final Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
     private final JobRepository jobRepository;
     private final CompanyRepository companyRepository;
-    private final EmploymentTypeRepository employmentTypeRepository;
-    private final ExperienceLevelRepository experienceLevelRepository;
-    private final CategoryRepository categoryRepository;
     private final SkillsRepository skillsRepository;
     private final WardRepository wardRepository;
     private final JobMapper jobMapper;
 
-    public JobServiceImpl(JobRepository jobRepository, CompanyRepository companyRepository, EmploymentTypeRepository employmentTypeRepository, ExperienceLevelRepository experienceLevelRepository, CategoryRepository categoryRepository, SkillsRepository skillsRepository, WardRepository wardRepository, JobMapper jobMapper) {
+    public JobServiceImpl(JobRepository jobRepository, CompanyRepository companyRepository, SkillsRepository skillsRepository, WardRepository wardRepository, JobMapper jobMapper) {
         this.jobRepository = jobRepository;
         this.companyRepository = companyRepository;
-        this.employmentTypeRepository = employmentTypeRepository;
-        this.experienceLevelRepository = experienceLevelRepository;
-        this.categoryRepository = categoryRepository;
         this.skillsRepository = skillsRepository;
         this.wardRepository = wardRepository;
         this.jobMapper = jobMapper;
@@ -47,25 +42,36 @@ public class JobServiceImpl implements IJobService {
         return jobMapper.toResponseJobList(jobs);
     }
 
+
     @Override
-    public JobResponse createJob(CreateJobRequest request) {
-        logger.info("Creating Job with name : {}", request.getTitle());
-        Job job = new Job();
-        job.setTitle(request.getTitle());
-        job.setDescription(request.getDescription());
-        job.setResponsibilities(request.getResponsibilities());
-        job.setRequirement(request.getRequirement());
-        job.setSalary(request.getSalary());
-        job.setBenefit(request.getBenefit());
+    public JobResponse createJob(Job job) {
+        logger.info("Creating Job with name : {}", job.getTitle());
+        //Check Company
+        if (job.getSkills() != null) {
+            List<Long> reqSkills = job.getSkills()
+                    .stream().map(Skills::getId)
+                    .collect(Collectors.toList());
+            List<Skills> dbSkills = this.skillsRepository.findByIdIn(reqSkills);
+            job.setSkills(dbSkills);
+        }
+        //check ward
+        if (job.getWard() != null && job.getWard().getCode() != null) {
+            Optional<Ward> wardOpt = this.wardRepository.findByCode(job.getWard().getCode());
+            wardOpt.ifPresent(job::setWard);
+        }
 
-        Optional.ofNullable(request.getCategoryId())
-                .map(id -> companyRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Company ", id)))
-                .isPresent(job::setCompany);
-
-
+        // check company
+        if (job.getCompany() != null) {
+            Optional<Company> cOptional = this.companyRepository.findById(job.getCompany().getId());
+            cOptional.ifPresent(job::setCompany);
+        }
+        // Save to DB
         Job savedJob = jobRepository.save(job);
+
+        // Convert to Response using JobMapper
+        JobResponse response = jobMapper.toResponseJob(savedJob);
+
         logger.info("Job created successfully with ID: {}", savedJob.getId());
-        return jobMapper.toResponseJob(savedJob);
+        return response;
     }
 }
