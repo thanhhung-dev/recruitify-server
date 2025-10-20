@@ -1,9 +1,9 @@
 package com.recruitify.server.Controllers;
 
+import com.recruitify.server.Services.Implementations.RoleServiceImpl;
 import com.recruitify.server.Util.Annotation.ApiMessage;
-import com.recruitify.server.Util.Error.IdInvalidException;
 import com.recruitify.server.Entities.Role;
-import com.recruitify.server.Services.RoleService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,36 +15,32 @@ import java.util.List;
 @RequestMapping("/api/v1")
 @AllArgsConstructor
 public class RoleControllers {
-    private final RoleService roleService;
+    private final RoleServiceImpl roleService;
     @PostMapping("/roles")
     @ApiMessage("Create a role")
-    public ResponseEntity<Role> create(@RequestBody Role role) throws IdInvalidException {
-        // check name
-        if (this.roleService.existByName(role.getName())) {
-            throw new IdInvalidException("Role with name = " + role.getName() + " Existent");
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.roleService.createRole(role));
+    public ResponseEntity<Role> createRole(@Valid @RequestBody Role role) {
+        Role createdRole = roleService.createRole(role);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdRole);
     }
     @PutMapping("/roles")
     @ApiMessage("Update a role")
-    public ResponseEntity<Role> update(@RequestBody Role role) throws IdInvalidException {
-        // check id
-        if (this.roleService.findRoleById(role.getId()) == null) {
-            throw new IdInvalidException("Role with id = " + role.getId() + " Non Existent");
-        }
-        return ResponseEntity.ok().body(this.roleService.updateRole(role));
+    public ResponseEntity<Role> updateRole(
+            @PathVariable Long id,
+            @Valid @RequestBody Role role) {
+        Role updatedRole = roleService.updateRole(role, id);
+        return ResponseEntity.ok(updatedRole);
     }
     @DeleteMapping("/roles/{id}")
     @ApiMessage("Delete a role")
-    public ResponseEntity<Void> delete(@PathVariable("id") long id) throws IdInvalidException {
-        // check id
-        if (this.roleService.findRoleById(id) == null) {
-            throw new IdInvalidException("Role với id = " + id + " không tồn tại");
-        }
-        this.roleService.deleteRole(id);
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<Void> deleteRole(@PathVariable Long id) {
+        roleService.deleteRole(id);
+        return ResponseEntity.noContent().build();
     }
-
+    @GetMapping("/{id}")
+    public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
+        Role role = roleService.findRoleById(id);
+        return ResponseEntity.ok(role);
+    }
     @GetMapping("/roles")
     @ApiMessage("Fetch roles")
     public ResponseEntity<List<Role>> getAllRoles()
