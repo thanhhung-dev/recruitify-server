@@ -1,9 +1,9 @@
-package com.recruitify.server.Dtos.Response;
+package com.recruitify.server.Dtos.Request.User;
 
 import lombok.Data;
 import java.time.LocalDate;
 @Data
-public class CreateUserResponse {
+public class CreateUserRequest {
     private long id;
     private String email;
     private String firstName;

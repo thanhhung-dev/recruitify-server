@@ -1,4 +1,4 @@
-package com.recruitify.server.Dtos.Response.User;
+package com.recruitify.server.Dtos.Request.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateUserResponse {
+public class UpdateUserRequest {
     private Long id;
     private String email;
 

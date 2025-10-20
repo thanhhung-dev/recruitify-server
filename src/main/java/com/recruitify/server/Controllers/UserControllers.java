@@ -1,7 +1,7 @@
 package com.recruitify.server.Controllers;
 
-import com.recruitify.server.Dtos.Response.CreateUserResponse;
-import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
+import com.recruitify.server.Dtos.Request.User.CreateUserRequest;
+import com.recruitify.server.Dtos.Request.User.UpdateUserRequest;
 import com.recruitify.server.Dtos.Response.User.UserResponse;
 import com.recruitify.server.Util.Annotation.ApiMessage;
 import com.recruitify.server.Util.Error.IdInvalidException;
@@ -29,7 +29,7 @@ public class UserControllers {
 
     @PostMapping("/users")
     @ApiMessage("Create a new user")
-    public ResponseEntity<CreateUserResponse> createNewUser(@RequestBody User user) throws IdInvalidException {
+    public ResponseEntity<CreateUserRequest> createNewUser(@RequestBody User user) throws IdInvalidException {
         // hash password later
         user.setPassword(user.getPassword());
         User createdUser = this.userService.handleCreateUser(user);
@@ -57,7 +57,7 @@ public class UserControllers {
 
     @PutMapping("/users")
     @ApiMessage("Update a user")
-    public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody User user)
+    public ResponseEntity<UpdateUserRequest> updateUser(@RequestBody User user)
             throws IdInvalidException {
         User updatedUser = this.userService.handleUpdateUser(user);
         if (updatedUser == null) {

@@ -1,7 +1,7 @@
 package com.recruitify.server.Services;
 
-import com.recruitify.server.Dtos.Response.CreateUserResponse;
-import com.recruitify.server.Dtos.Response.User.UpdateUserResponse;
+import com.recruitify.server.Dtos.Request.User.CreateUserRequest;
+import com.recruitify.server.Dtos.Request.User.UpdateUserRequest;
 import com.recruitify.server.Dtos.Response.User.UserResponse;
 import com.recruitify.server.Entities.Company;
 import com.recruitify.server.Entities.Role;
@@ -69,9 +69,9 @@ public class UserService {
                 })
                 .orElseThrow(() -> new IdInvalidException("User not found with id: " + reqUser.getId()));
     }
-    public CreateUserResponse convertToResCreateUserDTO(User user) {
-        CreateUserResponse res = new CreateUserResponse();
-        CreateUserResponse.CompanyUser com = new CreateUserResponse.CompanyUser();
+    public CreateUserRequest convertToResCreateUserDTO(User user) {
+        CreateUserRequest res = new CreateUserRequest();
+        CreateUserRequest.CompanyUser com = new CreateUserRequest.CompanyUser();
 
         res.setId(user.getId());
         res.setEmail(user.getEmail());
@@ -114,8 +114,8 @@ public class UserService {
         res.setAddress(user.getAddress());
         return res;
     }
-    public UpdateUserResponse convertToResUpdateUserDTO(User user) {
-        UpdateUserResponse dto = new UpdateUserResponse();
+    public UpdateUserRequest convertToResUpdateUserDTO(User user) {
+        UpdateUserRequest dto = new UpdateUserRequest();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());

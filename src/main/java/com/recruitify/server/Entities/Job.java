@@ -12,26 +12,25 @@ import java.util.List;
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long Id;
+    @Column( updatable = false, nullable = false)
+    private Long id;
 
-    @Column(name ="title", length = 255, nullable = false)
-    private String Title;
+    @Column( length = 255, nullable = false)
+    private String title;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String Description;
+    @Column( columnDefinition = "TEXT")
+    private String description;
 
-    @Column(name = "responsibilities", columnDefinition = "TEXT")
-    private String Responsibilities;
+    @Column(columnDefinition = "TEXT")
+    private String responsibilities;
+    @Column( columnDefinition = "TEXT")
+    private String requirement;
 
-    @Column(name = "requirement", columnDefinition = "TEXT")
-    private String Requirement;
-
-    @Column(name = "salary", precision = 10, scale = 2)
+    @Column(precision = 10, scale = 2)
     private BigDecimal salary;
 
     @Column(columnDefinition = "TEXT")
-    private String Benefit;
+    private String benefit;
     //Relationship
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")

@@ -1,8 +1,6 @@
 package com.recruitify.server.Dtos.Response.Job;
 
-import com.recruitify.server.Entities.*;
 import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
@@ -17,15 +15,14 @@ public class JobResponse {
     private BigDecimal salary;
     private String benefit;
 
-    // Related entities as simple DTOs
-    private Company company;
-    private EmploymentType employmentType;
-    private ExperienceLevel experienceLevel;
-    private Category category;
-    private List<Skills> skills;
-    private Ward ward;
+    // Company & Related Info
+    private String company;
+    private String employmentType;
+    private String experienceLevel;
+    private String category;
+    private String location;
+    private List<String> skills;
 
-    // Audit fields
     private Instant createdAt;
     private Instant updatedAt;
     private String createdBy;
