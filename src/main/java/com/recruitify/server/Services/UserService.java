@@ -7,6 +7,7 @@ import com.recruitify.server.Entities.Company;
 import com.recruitify.server.Entities.Role;
 import com.recruitify.server.Entities.User;
 import com.recruitify.server.Repositories.UserRepository;
+import com.recruitify.server.Services.Implementations.CompanyServiceImpl;
 import com.recruitify.server.Util.Error.IdInvalidException;
 import lombok.AllArgsConstructor;
 import org.hibernate.service.spi.ServiceException;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
-    private final CompanyService companyService;
+    private final CompanyServiceImpl companyService;
     public List<User> getAllUser()
     {
         return this.userRepository.findAll();
@@ -30,9 +31,9 @@ public class UserService {
             throw new ServiceException("Email is already in use: " + user.getEmail());
         }
         if (user.getCompany() != null) {
-            Optional<Company> companyOptional = this.companyService.fetchCompanyById(user.getCompany().
+            Company companyOptional = this.companyService.getByCompanyId(user.getCompany().
                     getId());
-            user.setCompany(companyOptional.orElse(null));
+            user.setCompany(companyOptional);
         }
         // check role
         if (user.getRole() != null) {
@@ -58,8 +59,8 @@ public class UserService {
                     currentUser.setPhoneNumber(reqUser.getPhoneNumber());
                     currentUser.setImage(reqUser.getImage());
                     if (reqUser.getCompany() != null && reqUser.getCompany().getId() != null) {
-                        Optional<Company> company = this.companyService.fetchCompanyById(reqUser.getCompany().getId());
-                        currentUser.setCompany(company.orElse(null));
+                        Company company = this.companyService.getByCompanyId(reqUser.getCompany().getId());
+                        currentUser.setCompany(company);
                     }
                     if (reqUser.getRole() != null) {
                         Role role = this.roleService.findRoleById(reqUser.getRole().getId());

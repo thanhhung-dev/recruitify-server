@@ -5,7 +5,7 @@ import com.recruitify.server.Entities.Company;
 import java.util.List;
 
 public interface ICompanyService {
-    Company GetCompanyAll();
+    List<Company> GetCompanyAll();
     Company createCompany(Company request);
     Company updateCompany(Long id , Company request);
     void deleteCompany(Long id);

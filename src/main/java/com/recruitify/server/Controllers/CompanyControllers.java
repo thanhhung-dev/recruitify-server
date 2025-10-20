@@ -1,9 +1,10 @@
 package com.recruitify.server.Controllers;
 
+import com.recruitify.server.Services.Implementations.CompanyServiceImpl;
 import com.recruitify.server.Util.Annotation.ApiMessage;
 import com.recruitify.server.Util.Error.IdInvalidException;
 import com.recruitify.server.Entities.Company;
-import com.recruitify.server.Services.CompanyService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,45 +17,38 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 public class CompanyControllers {
-    private final CompanyService companyService;
+    private final CompanyServiceImpl companyService;
 
     @PostMapping("/companies")
     @ApiMessage("Create a company")
-    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+    public ResponseEntity<Company> createCompany(@Valid @RequestBody Company company) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.companyService.createCompany(company));
     }
     @PutMapping("companies/{id}")
     @ApiMessage("Update a Company")
-    public ResponseEntity<Company> updateCompany(@RequestBody Company company) throws IdInvalidException {
-        Company updateCompany = this.companyService.updateCompany(company);
-        return ResponseEntity.status(HttpStatus.OK).body(updateCompany);
+    public ResponseEntity<Company> updateCompany(
+            @PathVariable Long id,
+            @Valid @RequestBody Company company) {
+        Company updatedCompany = companyService.updateCompany(id, company);
+        return ResponseEntity.ok(updatedCompany);
     }
     @GetMapping("/companies")
     @ApiMessage("Fetch all companies data")
     public ResponseEntity<List<Company>> getAllCompany() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.companyService.handleGetCompanyAll());
+                .body(this.companyService.GetCompanyAll());
     }
     @GetMapping("/companies/{id}")
     @ApiMessage("Fetch By id company data")
-    public ResponseEntity<Company> fetchCompanyById(@PathVariable("id") long id) throws IdInvalidException {
-        Optional<Company> companyOpt = this.companyService.fetchCompanyById(id);
-        if (companyOpt.isEmpty())
-        {
-            throw new IdInvalidException("Company with id: " + id + " does not exit");
-        }
-        return ResponseEntity.ok(companyOpt.get());
+    public ResponseEntity<Company> fetchCompanyById(@PathVariable("id") long id) {
+        Company company = companyService.getByCompanyId(id);
+        return ResponseEntity.ok(company);
     }
     @DeleteMapping("companies/{id}")
     @ApiMessage("Delete a Company")
-    public ResponseEntity<Void> deleteCompany(@PathVariable("id") long id) throws IdInvalidException {
-        Optional<Company> deleteCompanyOpt = this.companyService.fetchCompanyById(id);
-        if (deleteCompanyOpt.isEmpty())
-        {
-            throw new IdInvalidException("Company with id: " + id + " does not exit");
-        }
-        this.companyService.deleteCompany(id);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+    public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
+        companyService.deleteCompany(id);
+        return ResponseEntity.noContent().build();
     }
 }
