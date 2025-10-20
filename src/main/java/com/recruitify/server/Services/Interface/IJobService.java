@@ -1,6 +1,5 @@
 package com.recruitify.server.Services.Interface;
 
-import com.recruitify.server.Dtos.Request.CreateJobRequest;
 import com.recruitify.server.Dtos.Response.Job.JobResponse;
 import com.recruitify.server.Entities.Job;
 

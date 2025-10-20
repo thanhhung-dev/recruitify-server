@@ -45,6 +45,10 @@ public class Job {
     private ExperienceLevel experienceLevel;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "work_approach_id")
+    private WorkApproach workApproach;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
 

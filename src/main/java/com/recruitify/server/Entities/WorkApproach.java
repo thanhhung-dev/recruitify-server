@@ -1,9 +1,11 @@
 package com.recruitify.server.Entities;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.Instant;
 @Entity
+@Data
 @Table(name = "work_approach")
 public class WorkApproach {
     @Id
