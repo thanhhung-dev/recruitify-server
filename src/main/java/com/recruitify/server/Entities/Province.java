@@ -34,7 +34,6 @@ public class Province {
     @Column(name = "administrative_unit_id")
     private Integer administrativeUnitId;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "administrative_unit_id", insertable = false, updatable = false)
     private AdministrativeUnit administrativeUnit;

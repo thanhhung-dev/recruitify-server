@@ -1,23 +1,21 @@
 package com.recruitify.server.Dtos.Request.User;
 
+import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Entities.Company;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import java.time.LocalDate;
+
+import java.time.Instant;
 @Data
 public class CreateUserRequest {
-    private long id;
+    @Email(message = "Email must be valid")
     private String email;
+    @NotBlank(message = "Password is required")
+    private String password;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
-    private int gender;
-    private String image;
-    private String address;
-    private LocalDate dob;
-    private String displayName;
+    private Instant createDate;
     private CompanyUser company;
-    @Data
-    public static class CompanyUser {
-        private long id;
-        private String name;
-    }
+    private RoleUser roleUser;
 }

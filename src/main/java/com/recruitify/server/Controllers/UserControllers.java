@@ -3,6 +3,7 @@ package com.recruitify.server.Controllers;
 import com.recruitify.server.Dtos.Request.User.CreateUserRequest;
 import com.recruitify.server.Dtos.Request.User.UpdateUserRequest;
 import com.recruitify.server.Dtos.Response.User.UserResponse;
+import com.recruitify.server.Services.Implementations.UserServiceImpl;
 import com.recruitify.server.Util.Annotation.ApiMessage;
 import com.recruitify.server.Util.Error.IdInvalidException;
 import com.recruitify.server.Entities.User;
@@ -16,10 +17,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/")
-@AllArgsConstructor
 public class UserControllers {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
+
+    public UserControllers(UserServiceImpl userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/users")
     @ApiMessage("Fetch all users")
@@ -34,13 +38,12 @@ public class UserControllers {
         user.setPassword(user.getPassword());
         User createdUser = this.userService.handleCreateUser(user);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(this.userService.convertToResCreateUserDTO(createdUser));
+                .body(this.userService.(createdUser));
     }
 
     @DeleteMapping("/users/{id}")
     @ApiMessage("Delete a user")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id)
-            throws IdInvalidException {
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
         User currentUser = this.userService.fetchUserById(id);
         this.userService.handleDeleteUser(id);
         return ResponseEntity.ok(null);

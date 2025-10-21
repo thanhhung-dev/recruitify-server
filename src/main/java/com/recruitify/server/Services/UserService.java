@@ -8,6 +8,7 @@ import com.recruitify.server.Entities.Role;
 import com.recruitify.server.Entities.User;
 import com.recruitify.server.Repositories.UserRepository;
 import com.recruitify.server.Services.Implementations.CompanyServiceImpl;
+import com.recruitify.server.Services.Implementations.RoleServiceImpl;
 import com.recruitify.server.Util.Error.IdInvalidException;
 import lombok.AllArgsConstructor;
 import org.hibernate.service.spi.ServiceException;
@@ -20,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final RoleService roleService;
+    private final RoleServiceImpl roleService;
     private final CompanyServiceImpl companyService;
     public List<User> getAllUser()
     {
